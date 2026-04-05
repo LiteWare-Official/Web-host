@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Ranabir Kumar Roy</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080b12;
+    --surface: #0e1220;
+    --surface2: #131828;
+    --accent: #00f5c4;
+    --accent2: #7b5cfa;
+    --accent3: #ff6b6b;
+    --text: #e8eaf6;
+    --muted: #6b7280;
+    --border: rgba(0,245,196,0.15);
+    --border2: rgba(123,92,250,0.2);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    cursor: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9999;
+    mix-blend-mode: difference;
+    transition: transform 0.15s;
+  }
+  .cursor-ring {
+    width: 40px; height: 40px;
+    border: 1.5px solid var(--accent);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9998;
+    transition: all 0.35s cubic-bezier(.23,1,.32,1);
+    opacity: 0.6;
+  }
+
+  /* CANVAS */
+  #bg-canvas {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0; pointer-events: none;
+  }
+
+  /* NAV */
+  nav {
+    position: relative; z-index: 10;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 28px 60px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(8,11,18,0.8);
+    backdrop-filter: blur(20px);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 26px; letter-spacing: 4px;
+    color: var(--accent); text-decoration: none;
+    animation: logoGlow 3s ease-in-out infinite alternate;
+  }
+  @keyframes logoGlow {
+    from { text-shadow: 0 0 10px rgba(0,245,196,0.3); }
+    to   { text-shadow: 0 0 30px rgba(0,245,196,0.8), 0 0 60px rgba(0,245,196,0.3); }
+  }
+  .nav-back {
+    font-family: 'Space Mono', monospace; font-size: 12px;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); text-decoration: none;
+    display: flex; align-items: center; gap: 10px;
+    transition: color 0.3s;
+  }
+  .nav-back:hover { color: var(--accent); }
+  .nav-back svg { transition: transform 0.3s; }
+  .nav-back:hover svg { transform: translateX(-4px); }
+
+  /* MAIN LAYOUT */
+  main {
+    position: relative; z-index: 1;
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    min-height: calc(100vh - 85px);
+  }
+
+  /* LEFT PANEL */
+  .left-panel {
+    padding: 80px 60px;
+    display: flex; flex-direction: column; justify-content: center;
+    border-right: 1px solid var(--border);
+    position: relative; overflow: hidden;
+  }
+
+  .left-panel::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 20% 50%, rgba(0,245,196,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .panel-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 24px;
+    display: flex; align-items: center; gap: 12px;
+    opacity: 0; animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+  .panel-tag::before {
+    content: ''; display: inline-block;
+    width: 36px; height: 1px; background: var(--accent);
+  }
+
+  .panel-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(52px, 7vw, 96px);
+    line-height: 0.9; letter-spacing: 2px;
+    margin-bottom: 32px;
+    opacity: 0; animation: fadeUp 0.9s ease forwards 0.4s;
+  }
+  .panel-title .t1 { display: block; color: var(--text); }
+  .panel-title .t2 { display: block; color: transparent; -webkit-text-stroke: 1.5px var(--accent2); }
+  .panel-title .t3 { display: block; color: var(--accent); }
+
+  .panel-desc {
+    color: var(--muted); font-size: 15px; line-height: 1.8; font-weight: 300;
+    max-width: 380px; margin-bottom: 56px;
+    opacity: 0; animation: fadeUp 0.9s ease forwards 0.6s;
+  }
+
+  /* CONTACT INFO CARDS */
+  .contact-info {
+    display: flex; flex-direction: column; gap: 16px;
+    opacity: 0; animation: fadeUp 0.9s ease forwards 0.8s;
+  }
+
+  .info-card {
+    display: flex; align-items: center; gap: 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 18px 24px;
+    transition: all 0.35s;
+    text-decoration: none;
+    position: relative; overflow: hidden;
+    clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+  }
+  .info-card::before {
+    content: '';
+    position: absolute; left: 0; top: 0;
+    width: 3px; height: 100%;
+    background: var(--accent);
+    transform: scaleY(0); transform-origin: bottom;
+    transition: transform 0.35s ease;
+  }
+  .info-card::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(0,245,196,0.04), transparent);
+    opacity: 0; transition: opacity 0.35s;
+  }
+  .info-card:hover { border-color: rgba(0,245,196,0.3); transform: translateX(6px); }
+  .info-card:hover::before { transform: scaleY(1); }
+  .info-card:hover::after { opacity: 1; }
+
+  .info-icon {
+    width: 40px; height: 40px; flex-shrink: 0;
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    transition: border-color 0.3s;
+  }
+  .info-card:hover .info-icon { border-color: var(--accent); }
+
+  .info-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 3px;
+  }
+  .info-value { font-size: 14px; color: var(--text); font-weight: 500; }
+
+  /* DECORATIVE GRID */
+  .deco-grid {
+    position: absolute; bottom: 40px; right: 40px;
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;
+    opacity: 0.15;
+  }
+  .deco-dot {
+    width: 4px; height: 4px; border-radius: 50%;
+    background: var(--accent);
+    animation: dotPulse 3s ease-in-out infinite;
+  }
+  .deco-dot:nth-child(odd) { animation-delay: 0.5s; }
+  @keyframes dotPulse {
+    0%,100% { opacity: 0.3; } 50% { opacity: 1; }
+  }
+
+  /* RIGHT PANEL — FORM */
+  .right-panel {
+    padding: 80px 60px;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative;
+  }
+
+  .right-panel::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 80% 30%, rgba(123,92,250,0.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .form-header {
+    margin-bottom: 48px;
+    opacity: 0; animation: fadeUp 0.9s ease forwards 0.3s;
+  }
+  .form-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--accent2); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .form-tag::before {
+    content: ''; display: inline-block;
+    width: 24px; height: 1px; background: var(--accent2);
+  }
+  .form-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 42px; letter-spacing: 2px; color: var(--text);
+  }
+
+  /* FORM */
+  #contact-form {
+    display: flex; flex-direction: column; gap: 24px;
+    opacity: 0; animation: fadeUp 0.9s ease forwards 0.5s;
+  }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+  .field-group { display: flex; flex-direction: column; gap: 10px; position: relative; }
+
+  .field-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted);
+    display: flex; align-items: center; justify-content: space-between;
+    transition: color 0.3s;
+  }
+  .field-label .required { color: var(--accent3); font-size: 16px; line-height: 1; }
+  .field-label .char-count { font-size: 10px; opacity: 0; transition: opacity 0.3s; }
+
+  .field-group:focus-within .field-label { color: var(--accent); }
+  .field-group:focus-within .char-count { opacity: 1; }
+
+  .field-input, .field-textarea, .field-select {
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,0.07);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
+    padding: 16px 20px;
+    outline: none;
+    transition: all 0.35s;
+    width: 100%;
+    position: relative;
+    clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+  }
+  .field-textarea {
+    resize: none; height: 140px; line-height: 1.7;
+    clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 calc(100% - 6px), calc(100% - 6px) 100%, 0 100%);
+  }
+  .field-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 7L11 1' stroke='%2300f5c4' stroke-width='1.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 20px center;
+    cursor: none;
+  }
+  .field-select option { background: var(--surface2); color: var(--text); }
+
+  .field-input::placeholder, .field-textarea::placeholder { color: rgba(107,114,128,0.6); }
+
+  .field-input:focus, .field-textarea:focus, .field-select:focus {
+    border-color: rgba(0,245,196,0.4);
+    background: var(--surface2);
+    box-shadow: 0 0 0 3px rgba(0,245,196,0.06), inset 0 1px 0 rgba(0,245,196,0.08);
+  }
+
+  .field-input.error, .field-textarea.error {
+    border-color: rgba(255,107,107,0.5);
+    box-shadow: 0 0 0 3px rgba(255,107,107,0.06);
+  }
+
+  /* FIELD UNDERLINE ANIMATION */
+  .field-underline {
+    position: absolute; bottom: 0; left: 0;
+    height: 2px; width: 0;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transition: width 0.4s cubic-bezier(.23,1,.32,1);
+    pointer-events: none;
+  }
+  .field-group:focus-within .field-underline { width: 100%; }
+
+  /* FIELD ERROR MSG */
+  .field-error {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: 1px;
+    color: var(--accent3);
+    height: 0; overflow: hidden;
+    transition: height 0.3s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .field-error.show { height: 18px; }
+
+  /* BUDGET CHIPS */
+  .budget-chips {
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .budget-chip {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: 1px;
+    padding: 8px 14px;
+    cursor: none;
+    transition: all 0.25s;
+    text-transform: uppercase;
+  }
+  .budget-chip:hover { border-color: var(--accent); color: var(--accent); }
+  .budget-chip.active {
+    background: rgba(0,245,196,0.1);
+    border-color: var(--accent); color: var(--accent);
+  }
+
+  /* SUBMIT BUTTON */
+  .submit-area {
+    display: flex; align-items: center; gap: 24px;
+    margin-top: 8px;
+  }
+
+  .btn-submit {
+    position: relative;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    padding: 18px 48px;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px; letter-spacing: 3px; text-transform: uppercase;
+    cursor: none;
+    overflow: hidden;
+    transition: all 0.35s;
+    clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+    min-width: 200px;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+  }
+  .btn-submit::before {
+    content: '';
+    position: absolute; top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+    transition: left 0.5s;
+  }
+  .btn-submit:hover:not(:disabled)::before { left: 100%; }
+  .btn-submit:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0,245,196,0.35);
+  }
+  .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+  .btn-submit.loading { background: var(--surface2); color: var(--accent); border: 1px solid var(--accent); }
+
+  .btn-submit .spinner {
+    width: 16px; height: 16px;
+    border: 2px solid rgba(0,245,196,0.3);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: none;
+  }
+  .btn-submit.loading .spinner { display: block; }
+  .btn-submit.loading .btn-text { display: none; }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .submit-note {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: 1px;
+    color: var(--muted); line-height: 1.6;
+  }
+
+  /* SUCCESS STATE */
+  .success-overlay {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    background: var(--bg);
+    z-index: 10;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.6s ease;
+    padding: 60px;
+  }
+  .success-overlay.show { opacity: 1; pointer-events: all; }
+
+  .success-icon {
+    width: 80px; height: 80px;
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 32px;
+    position: relative;
+    animation: successPop 0.6s cubic-bezier(.34,1.56,.64,1) forwards;
+    transform: scale(0);
+  }
+  @keyframes successPop {
+    to { transform: scale(1); }
+  }
+  .success-icon::before {
+    content: '';
+    position: absolute; inset: -8px;
+    border: 1px solid rgba(0,245,196,0.2);
+    border-radius: 50%;
+    animation: ripple 2s ease-out infinite;
+  }
+  @keyframes ripple {
+    0% { transform: scale(1); opacity: 0.5; }
+    100% { transform: scale(1.5); opacity: 0; }
+  }
+
+  .checkmark {
+    stroke: var(--accent); stroke-width: 2.5;
+    stroke-dasharray: 30; stroke-dashoffset: 30;
+    animation: drawCheck 0.5s ease forwards 0.4s;
+    fill: none;
+  }
+  @keyframes drawCheck { to { stroke-dashoffset: 0; } }
+
+  .success-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 52px; letter-spacing: 4px;
+    color: var(--accent); margin-bottom: 16px;
+    text-align: center;
+  }
+  .success-msg {
+    color: var(--muted); font-size: 15px; line-height: 1.7;
+    text-align: center; max-width: 340px; margin-bottom: 40px;
+  }
+  .success-msg strong { color: var(--text); }
+
+  .btn-reset {
+    background: transparent; border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+    padding: 14px 32px; cursor: none;
+    transition: all 0.3s;
+    clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+  }
+  .btn-reset:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* SCANNING LINE EFFECT on form */
+  .scan-line {
+    position: absolute; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(0,245,196,0.4), transparent);
+    animation: scanMove 6s linear infinite;
+    pointer-events: none; z-index: 5;
+  }
+  @keyframes scanMove {
+    0% { top: 0; opacity: 0; }
+    5% { opacity: 1; }
+    95% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+  }
+
+  /* CORNER DECORATIONS */
+  .corner-deco {
+    position: absolute;
+    width: 24px; height: 24px;
+    border-color: rgba(0,245,196,0.3);
+    border-style: solid;
+    pointer-events: none;
+  }
+  .corner-deco.tl { top: 20px; left: 20px; border-width: 1px 0 0 1px; }
+  .corner-deco.tr { top: 20px; right: 20px; border-width: 1px 1px 0 0; }
+  .corner-deco.bl { bottom: 20px; left: 20px; border-width: 0 0 1px 1px; }
+  .corner-deco.br { bottom: 20px; right: 20px; border-width: 0 1px 1px 0; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* TOAST */
+  .toast {
+    position: fixed; bottom: 32px; right: 32px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 16px 24px;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px; letter-spacing: 1px;
+    color: var(--text);
+    z-index: 1000;
+    transform: translateY(100px); opacity: 0;
+    transition: all 0.4s cubic-bezier(.23,1,.32,1);
+    clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast .toast-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .toast.error .toast-dot { background: var(--accent3); }
+  .toast.success .toast-dot { background: var(--accent); }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    main { grid-template-columns: 1fr; }
+    .left-panel { border-right: none; border-bottom: 1px solid var(--border); padding: 60px 30px 40px; }
+    .right-panel { padding: 40px 30px 60px; }
+    .form-row { grid-template-columns: 1fr; }
+    nav { padding: 20px 30px; }
+    .submit-area { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<nav>
+  <a href="ranabir_portfolio.html" class="nav-logo">RKR</a>
+  <a href="ranabir_portfolio.html" class="nav-back">
+    <svg width="16" height="16" fill="none" viewBox="0 0 16 16">
+      <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    Back to Portfolio
+  </a>
+</nav>
+
+<main>
+  <!-- LEFT -->
+  <div class="left-panel">
+    <div class="panel-tag">Get In Touch</div>
+    <h1 class="panel-title">
+      <span class="t1">Let's</span>
+      <span class="t2">Build</span>
+      <span class="t3">Together.</span>
+    </h1>
+    <p class="panel-desc">
+      Have a project in mind? Want to collaborate, or just want to say hello?
+      Drop me a message and I'll get back to you within 24 hours.
+    </p>
+
+    <div class="contact-info">
+      <a href="mailto:ranabir@example.com" class="info-card">
+        <div class="info-icon">✉</div>
+        <div>
+          <div class="info-label">Email</div>
+          <div class="info-value">ranabir@example.com</div>
+        </div>
+      </a>
+      <a href="https://linkedin.com" target="_blank" class="info-card">
+        <div class="info-icon">in</div>
+        <div>
+          <div class="info-label">LinkedIn</div>
+          <div class="info-value">linkedin.com/in/ranabirkumarroy</div>
+        </div>
+      </a>
+      <a href="https://github.com" target="_blank" class="info-card">
+        <div class="info-icon">⌥</div>
+        <div>
+          <div class="info-label">GitHub</div>
+          <div class="info-value">github.com/ranabirkumarroy</div>
+        </div>
+      </a>
+      <div class="info-card" style="cursor:default">
+        <div class="info-icon">◎</div>
+        <div>
+          <div class="info-label">Location</div>
+          <div class="info-value">Siliguri, West Bengal, India</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Decorative dot grid -->
+    <div class="deco-grid" id="decoGrid"></div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="right-panel" id="rightPanel">
+    <div class="scan-line"></div>
+    <div class="corner-deco tl"></div>
+    <div class="corner-deco tr"></div>
+    <div class="corner-deco bl"></div>
+    <div class="corner-deco br"></div>
+
+    <div class="form-header">
+      <div class="form-tag">Send A Message</div>
+      <div class="form-title">Write To Me</div>
+    </div>
+
+    <!-- ⚡ REPLACE with your Formspree ID below -->
+    <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" novalidate>
+
+      <div class="form-row">
+        <div class="field-group">
+          <label class="field-label" for="name">
+            Your Name <span class="required">*</span>
+          </label>
+          <input class="field-input" type="text" id="name" name="name"
+            placeholder="Ranabir Kumar Roy" autocomplete="name" required>
+          <div class="field-underline"></div>
+          <div class="field-error" id="name-error">⚠ Please enter your name</div>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="email">
+            Email Address <span class="required">*</span>
+          </label>
+          <input class="field-input" type="email" id="email" name="email"
+            placeholder="hello@example.com" autocomplete="email" required>
+          <div class="field-underline"></div>
+          <div class="field-error" id="email-error">⚠ Enter a valid email</div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="subject">Subject <span class="required">*</span></label>
+        <select class="field-select" id="subject" name="subject" required>
+          <option value="" disabled selected>— Select a topic —</option>
+          <option value="Project Inquiry">Project Inquiry</option>
+          <option value="Freelance Collaboration">Freelance Collaboration</option>
+          <option value="Job Opportunity">Job Opportunity</option>
+          <option value="Feedback">Feedback</option>
+          <option value="Just Saying Hi">Just Saying Hi 👋</option>
+          <option value="Other">Other</option>
+        </select>
+        <div class="field-underline"></div>
+        <div class="field-error" id="subject-error">⚠ Please select a topic</div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="budget">
+          Budget Range
+          <span class="char-count" id="budget-display">Optional</span>
+        </label>
+        <div class="budget-chips">
+          <button type="button" class="budget-chip" data-value="< $500">&lt; $500</button>
+          <button type="button" class="budget-chip" data-value="$500 – $2K">$500 – $2K</button>
+          <button type="button" class="budget-chip" data-value="$2K – $5K">$2K – $5K</button>
+          <button type="button" class="budget-chip" data-value="$5K+">$5K+</button>
+          <button type="button" class="budget-chip" data-value="Let's Discuss">Let's Discuss</button>
+        </div>
+        <input type="hidden" id="budget" name="budget" value="">
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="message">
+          Message <span class="required">*</span>
+          <span class="char-count" id="char-count">0 / 500</span>
+        </label>
+        <textarea class="field-textarea" id="message" name="message"
+          placeholder="Tell me about your project, idea, or anything you'd like to discuss..."
+          maxlength="500" required></textarea>
+        <div class="field-underline"></div>
+        <div class="field-error" id="message-error">⚠ Please write a message (min 10 chars)</div>
+      </div>
+
+      <div class="submit-area">
+        <button type="submit" class="btn-submit" id="submit-btn">
+          <span class="btn-text">Send Message →</span>
+          <div class="spinner"></div>
+        </button>
+        <div class="submit-note">
+          Encrypted & secure.<br>I reply within 24 hours.
+        </div>
+      </div>
+    </form>
+
+    <!-- SUCCESS OVERLAY -->
+    <div class="success-overlay" id="success-overlay">
+      <div class="success-icon">
+        <svg width="32" height="32" viewBox="0 0 32 32">
+          <polyline class="checkmark" points="6,17 13,24 26,10"/>
+        </svg>
+      </div>
+      <div class="success-title">Message Sent!</div>
+      <p class="success-msg">
+        Thanks for reaching out, <strong id="sender-name">friend</strong>!<br>
+        I'll get back to you at <strong id="sender-email">your email</strong> within 24 hours.
+      </p>
+      <button class="btn-reset" id="reset-btn">Send Another Message</button>
+    </div>
+  </div>
+</main>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-dot"></div>
+  <span id="toast-msg">Something went wrong. Please try again.</span>
+</div>
+
+<script>
+  /* ── CURSOR ── */
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx - 6 + 'px';
+    cursor.style.top  = my - 6 + 'px';
+  });
+  (function animRing() {
+    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+    ring.style.left = rx - 20 + 'px'; ring.style.top = ry - 20 + 'px';
+    requestAnimationFrame(animRing);
+  })();
+  document.querySelectorAll('a,button,.info-card,.field-input,.field-textarea,.field-select').forEach(el => {
+    el.addEventListener('mouseenter', () => { ring.style.transform='scale(1.8)'; ring.style.borderColor='var(--accent2)'; });
+    el.addEventListener('mouseleave', () => { ring.style.transform='scale(1)';   ring.style.borderColor='var(--accent)'; });
+  });
+
+  /* ── CANVAS BG ── */
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+  class P {
+    constructor() { this.reset(); }
+    reset() { this.x=Math.random()*W; this.y=Math.random()*H; this.vx=(Math.random()-.5)*.25; this.vy=(Math.random()-.5)*.25; this.r=Math.random()*1.2+.4; this.a=Math.random()*.35+.08; }
+    update() { this.x+=this.vx; this.y+=this.vy; if(this.x<0||this.x>W||this.y<0||this.y>H) this.reset(); }
+    draw() { ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2); ctx.fillStyle=`rgba(0,245,196,${this.a})`; ctx.fill(); }
+  }
+  for(let i=0;i<70;i++) particles.push(new P());
+  function bgAnim() {
+    ctx.clearRect(0,0,W,H);
+    particles.forEach(p => { p.update(); p.draw(); });
+    for(let i=0;i<particles.length;i++) for(let j=i+1;j<particles.length;j++) {
+      const dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y, d=Math.sqrt(dx*dx+dy*dy);
+      if(d<110) { ctx.beginPath(); ctx.moveTo(particles[i].x,particles[i].y); ctx.lineTo(particles[j].x,particles[j].y); ctx.strokeStyle=`rgba(0,245,196,${.04*(1-d/110)})`; ctx.lineWidth=.5; ctx.stroke(); }
+    }
+    requestAnimationFrame(bgAnim);
+  }
+  bgAnim();
+
+  /* ── DECO DOT GRID ── */
+  const dg = document.getElementById('decoGrid');
+  for(let i=0;i<25;i++) { const d=document.createElement('div'); d.className='deco-dot'; d.style.animationDelay=(Math.random()*2)+'s'; dg.appendChild(d); }
+
+  /* ── BUDGET CHIPS ── */
+  let selectedBudget = '';
+  document.querySelectorAll('.budget-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.budget-chip').forEach(c => c.classList.remove('active'));
+      if(selectedBudget === chip.dataset.value) {
+        selectedBudget = ''; document.getElementById('budget').value = '';
+      } else {
+        chip.classList.add('active');
+        selectedBudget = chip.dataset.value;
+        document.getElementById('budget').value = selectedBudget;
+      }
+    });
+  });
+
+  /* ── CHAR COUNTER ── */
+  const msgEl = document.getElementById('message');
+  const charCount = document.getElementById('char-count');
+  msgEl.addEventListener('input', () => {
+    const len = msgEl.value.length;
+    charCount.textContent = `${len} / 500`;
+    charCount.style.color = len > 450 ? 'var(--accent3)' : len > 350 ? 'var(--accent2)' : 'var(--muted)';
+  });
+
+  /* ── VALIDATION ── */
+  function showError(id, show) {
+    const el = document.getElementById(id);
+    if(el) { el.classList.toggle('show', show); }
+  }
+  function markError(inputId, hasError) {
+    const el = document.getElementById(inputId);
+    if(el) { el.classList.toggle('error', hasError); }
+  }
+
+  function validate() {
+    let ok = true;
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const subject = document.getElementById('subject').value;
+    const message = document.getElementById('message').value.trim();
+    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    showError('name-error', !name); markError('name', !name); if(!name) ok=false;
+    showError('email-error', !emailRe.test(email)); markError('email', !emailRe.test(email)); if(!emailRe.test(email)) ok=false;
+    showError('subject-error', !subject); markError('subject', !subject); if(!subject) ok=false;
+    const msgBad = message.length < 10;
+    showError('message-error', msgBad); markError('message', msgBad); if(msgBad) ok=false;
+    return ok;
+  }
+
+  /* ── TOAST ── */
+  function showToast(msg, type='error') {
+    const t = document.getElementById('toast');
+    document.getElementById('toast-msg').textContent = msg;
+    t.className = `toast ${type} show`;
+    setTimeout(() => t.classList.remove('show'), 4000);
+  }
+
+  /* ── FORM SUBMIT ── */
+  const form = document.getElementById('contact-form');
+  const submitBtn = document.getElementById('submit-btn');
+  const successOverlay = document.getElementById('success-overlay');
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    if(!validate()) { showToast('Please fix the errors above.', 'error'); return; }
+
+    const nameVal  = document.getElementById('name').value.trim();
+    const emailVal = document.getElementById('email').value.trim();
+
+    submitBtn.classList.add('loading');
+    submitBtn.disabled = true;
+
+    try {
+      const data = new FormData(form);
+      const res  = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if(res.ok) {
+        document.getElementById('sender-name').textContent  = nameVal;
+        document.getElementById('sender-email').textContent = emailVal;
+        successOverlay.classList.add('show');
+        showToast('Message sent successfully!', 'success');
+      } else {
+        const json = await res.json();
+        const errMsg = json.errors ? json.errors.map(e=>e.message).join(', ') : 'Submission failed.';
+        showToast(errMsg, 'error');
+      }
+    } catch(err) {
+      showToast('Network error. Please try again.', 'error');
+    } finally {
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+    }
+  });
+
+  /* ── RESET ── */
+  document.getElementById('reset-btn').addEventListener('click', () => {
+    successOverlay.classList.remove('show');
+    form.reset();
+    selectedBudget = '';
+    document.querySelectorAll('.budget-chip').forEach(c => c.classList.remove('active'));
+    document.getElementById('budget').value = '';
+    charCount.textContent = '0 / 500';
+    ['name','email','message','subject'].forEach(id => {
+      markError(id, false);
+      showError(id+'-error', false);
+    });
+  });
+
+  /* ── LIVE FIELD CLEAR ON INPUT ── */
+  ['name','email','message'].forEach(id => {
+    document.getElementById(id).addEventListener('input', () => {
+      markError(id, false); showError(id+'-error', false);
+    });
+  });
+  document.getElementById('subject').addEventListener('change', () => {
+    markError('subject', false); showError('subject-error', false);
+  });
+</script>
+</body>
+</html>
