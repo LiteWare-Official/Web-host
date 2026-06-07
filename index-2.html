@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="TechFix Hub — Step-by-step guides to fix Android errors, coding bugs, and software issues. Free tutorials for developers and everyday users." />
+  <meta name="keywords" content="tech tutorials, how to fix android error, coding fixes, software guides, app troubleshooting, developer tips" />
+  <meta name="author" content="TechFix Hub" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="TechFix Hub — Tech Tutorials & Error Fixes" />
+  <meta property="og:description" content="Clear, beginner-friendly guides to fix errors, learn tools, and solve tech problems fast." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://techfixhub.com" />
+  <meta name="theme-color" content="#0a0f1e" />
+  <title>TechFix Hub — Tech Tutorials, Error Fixes & Software Guides</title>
+
+  <!-- Structured Data: WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "TechFix Hub",
+    "url": "https://techfixhub.com",
+    "description": "Step-by-step tech tutorials, error fixes, and software guides for developers and everyday users.",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://techfixhub.com/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <!-- Structured Data: Organization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "TechFix Hub",
+    "url": "https://techfixhub.com",
+    "logo": "https://techfixhub.com/logo.png",
+    "sameAs": []
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #08090f;
+      --surface: #0f1120;
+      --surface2: #161929;
+      --border: rgba(255,255,255,0.07);
+      --accent: #4fffb0;
+      --accent2: #4fc3ff;
+      --accent3: #ff6b6b;
+      --text: #e8eaf0;
+      --muted: #7a7f9a;
+      --card-glow: rgba(79,255,176,0.04);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(8,9,15,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 5%;
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.2rem;
+      letter-spacing: -0.03em;
+    }
+
+    .logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-search {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 7px 14px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      width: 200px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .nav-search:focus { border-color: var(--accent); }
+    .nav-search::placeholder { color: var(--muted); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      padding: 90px 5% 80px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
+      height: 400px;
+      background: radial-gradient(ellipse, rgba(79,255,176,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(79,255,176,0.08);
+      border: 1px solid rgba(79,255,176,0.2);
+      color: var(--accent);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      padding: 5px 14px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+      letter-spacing: 0.05em;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+      max-width: 800px;
+      margin: 0 auto 20px;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+
+    .hero h1 .hl { color: var(--accent); }
+    .hero h1 .hl2 { color: var(--accent2); }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 560px;
+      margin: 0 auto 36px;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .tag {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.82rem;
+      padding: 6px 14px;
+      border-radius: 100px;
+      transition: all 0.2s;
+      cursor: pointer;
+      font-family: 'DM Mono', monospace;
+    }
+    .tag:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── SECTION TITLE ── */
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 40px;
+    }
+
+    /* ── CONTAINER ── */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 5%;
+    }
+
+    section { padding: 70px 0; }
+
+    /* ── FEATURED ARTICLE ── */
+    .featured-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: border-color 0.25s, transform 0.25s;
+      position: relative;
+    }
+    .card:hover {
+      border-color: rgba(79,255,176,0.3);
+      transform: translateY(-3px);
+    }
+
+    .card-thumb {
+      background: var(--surface2);
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-thumb::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 40%, var(--surface) 100%);
+    }
+
+    .card-featured .card-thumb { height: 260px; font-size: 4rem; }
+
+    .card-body { padding: 22px 24px 24px; }
+
+    .card-cat {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .card-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      line-height: 1.35;
+      margin-bottom: 10px;
+      letter-spacing: -0.02em;
+    }
+
+    .card-featured .card-title { font-size: 1.5rem; }
+
+    .card-excerpt {
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+    }
+
+    .card-meta .read-time {
+      background: rgba(79,195,255,0.08);
+      color: var(--accent2);
+      border: 1px solid rgba(79,195,255,0.15);
+      padding: 3px 10px;
+      border-radius: 100px;
+    }
+
+    .read-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-top: 14px;
+      transition: gap 0.2s;
+    }
+    .read-more:hover { gap: 10px; }
+
+    /* ── ARTICLES GRID ── */
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    /* ── CATEGORIES ── */
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 14px;
+    }
+
+    .cat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px 20px;
+      text-align: center;
+      transition: all 0.25s;
+      cursor: pointer;
+    }
+    .cat-card:hover {
+      border-color: var(--accent);
+      background: rgba(79,255,176,0.04);
+    }
+
+    .cat-icon { font-size: 2rem; margin-bottom: 10px; }
+    .cat-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+    .cat-count { font-size: 0.78rem; color: var(--muted); font-family: 'DM Mono', monospace; }
+
+    /* ── POPULAR FIXES ── */
+    .fixes-list { display: flex; flex-direction: column; gap: 12px; }
+
+    .fix-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: border-color 0.2s;
+      cursor: pointer;
+    }
+    .fix-item:hover { border-color: rgba(79,255,176,0.3); }
+
+    .fix-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
+      min-width: 24px;
+    }
+
+    .fix-title {
+      font-weight: 500;
+      font-size: 0.95rem;
+      flex: 1;
+    }
+
+    .fix-views {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    /* ── NEWSLETTER ── */
+    .newsletter {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 50px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .newsletter::before {
+      content: '';
+      position: absolute;
+      top: -60px; left: 50%;
+      transform: translateX(-50%);
+      width: 400px; height: 200px;
+      background: radial-gradient(ellipse, rgba(79,255,176,0.06), transparent 70%);
+    }
+
+    .newsletter h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 10px;
+    }
+
+    .newsletter p { color: var(--muted); margin-bottom: 28px; }
+
+    .nl-form {
+      display: flex;
+      gap: 10px;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    .nl-input {
+      flex: 1;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .nl-input:focus { border-color: var(--accent); }
+    .nl-input::placeholder { color: var(--muted); }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #08090f;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 22px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+
+    /* ── AD PLACEHOLDER ── */
+    .ad-slot {
+      background: var(--surface);
+      border: 1px dashed rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-family: 'DM Mono', monospace;
+      margin: 30px 0;
+    }
+
+    /* ── ARTICLE PAGE ── */
+    .article-hero {
+      padding: 60px 5% 40px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .breadcrumb {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 20px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .breadcrumb span { color: var(--accent); }
+
+    .article-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .article-meta {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    .article-body {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 5% 60px;
+    }
+
+    .article-body h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin: 40px 0 16px;
+      color: var(--text);
+    }
+
+    .article-body h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 28px 0 12px;
+      color: var(--accent2);
+    }
+
+    .article-body p { color: #c0c4d6; margin-bottom: 18px; font-size: 0.97rem; }
+
+    .article-body ul, .article-body ol {
+      padding-left: 22px;
+      margin-bottom: 18px;
+      color: #c0c4d6;
+      font-size: 0.97rem;
+    }
+
+    .article-body li { margin-bottom: 8px; }
+
+    .code-block {
+      background: #0d1117;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 20px 22px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.83rem;
+      color: #a8d8a8;
+      overflow-x: auto;
+      margin: 20px 0;
+      position: relative;
+    }
+
+    .code-block .code-lang {
+      position: absolute;
+      top: 10px; right: 14px;
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .info-box {
+      background: rgba(79,195,255,0.06);
+      border: 1px solid rgba(79,195,255,0.2);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin: 20px 0;
+      font-size: 0.9rem;
+      color: #b0d4f0;
+    }
+
+    .info-box strong { color: var(--accent2); }
+
+    .warning-box {
+      background: rgba(255,107,107,0.06);
+      border: 1px solid rgba(255,107,107,0.2);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin: 20px 0;
+      font-size: 0.9rem;
+      color: #f0b0b0;
+    }
+
+    .step-list { counter-reset: steps; list-style: none; padding: 0; }
+    .step-list li {
+      counter-increment: steps;
+      padding: 16px 20px 16px 56px;
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 12px;
+    }
+    .step-list li::before {
+      content: counter(steps);
+      position: absolute;
+      left: 16px; top: 14px;
+      width: 28px; height: 28px;
+      background: var(--accent);
+      color: #08090f;
+      border-radius: 50%;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 50px 5% 30px;
+      margin-top: 60px;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .footer-brand p {
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin-top: 12px;
+      line-height: 1.7;
+    }
+
+    .footer-col h4 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a { color: var(--muted); font-size: 0.88rem; transition: color 0.2s; }
+    .footer-col a:hover { color: var(--accent); }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+    }
+
+    /* ── PAGES (hidden by default) ── */
+    .page { display: none; }
+    .page.active { display: block; }
+    #home.active { display: block; }
+
+    /* ── ABOUT / CONTACT / PRIVACY styles ── */
+    .static-page {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 60px 5%;
+    }
+
+    .static-page h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 24px;
+    }
+
+    .static-page h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 32px 0 12px;
+    }
+
+    .static-page p {
+      color: #c0c4d6;
+      margin-bottom: 16px;
+      font-size: 0.97rem;
+    }
+
+    .static-page ul {
+      padding-left: 20px;
+      color: #c0c4d6;
+      margin-bottom: 16px;
+      font-size: 0.97rem;
+    }
+
+    .contact-form {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px;
+      margin-top: 32px;
+    }
+
+    .form-group { margin-bottom: 20px; }
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus { border-color: var(--accent); }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .featured-grid { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr 1fr; gap: 30px; }
+      .nav-links { display: none; }
+      .nav-search { width: 140px; }
+      .nl-form { flex-direction: column; }
+      .newsletter { padding: 30px 20px; }
+    }
+
+    @media (max-width: 480px) {
+      .footer-inner { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVIGATION ── -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo" onclick="showPage('home')">Tech<span>Fix</span>Hub</a>
+    <ul class="nav-links">
+      <li><a href="#" onclick="showPage('home')">Home</a></li>
+      <li><a href="#" onclick="showPage('tutorials')">Tutorials</a></li>
+      <li><a href="#" onclick="showPage('about')">About</a></li>
+      <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+      <li><a href="#" onclick="showPage('privacy')">Privacy</a></li>
+    </ul>
+    <input class="nav-search" type="search" placeholder="Search fixes…" />
+  </div>
+</nav>
+
+<!-- ════════════════════════════════ HOME PAGE ════════════════════════════════ -->
+<div id="home" class="page active">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-badge">// 200+ Step-by-Step Guides</div>
+    <h1>Fix Any Tech Error<br><span class="hl">Fast.</span> <span class="hl2">Free.</span></h1>
+    <p>Clear tutorials for Android errors, coding bugs, software issues, and app comparisons — written for real people, not robots.</p>
+    <div class="hero-tags">
+      <span class="tag">Android Fixes</span>
+      <span class="tag">Python Errors</span>
+      <span class="tag">ESP32 Guides</span>
+      <span class="tag">App Comparisons</span>
+      <span class="tag">Free Tools</span>
+      <span class="tag">Web Dev</span>
+      <span class="tag">Git Tips</span>
+      <span class="tag">VS Code</span>
+    </div>
+  </section>
+
+  <!-- AD SLOT (Top Banner) -->
+  <div class="container">
+    <div class="ad-slot">📢 Advertisement — Google AdSense Banner (728×90)</div>
+  </div>
+
+  <!-- FEATURED ARTICLES -->
+  <section>
+    <div class="container">
+      <div class="section-label">// Featured</div>
+      <h2 class="section-title">Top Guides This Week</h2>
+      <div class="featured-grid fade-up">
+        <div class="card card-featured" onclick="showArticle('android-install-error')">
+          <div class="card-thumb">📱</div>
+          <div class="card-body">
+            <div class="card-cat">Android Fix</div>
+            <h3 class="card-title">How to Fix "App Not Installed" Error on Android (7 Methods)</h3>
+            <p class="card-excerpt">One of the most common Android errors — this complete guide covers every cause and fix, from storage issues to signature mismatches.</p>
+            <div class="card-meta">
+              <span class="read-time">8 min read</span>
+              <span>Jan 2025</span>
+            </div>
+            <a class="read-more" href="#">Read Guide →</a>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <div class="card" onclick="showArticle('python-modulenotfound')">
+            <div class="card-thumb" style="height:120px;font-size:2rem;">🐍</div>
+            <div class="card-body">
+              <div class="card-cat">Python Fix</div>
+              <h3 class="card-title">Fix "ModuleNotFoundError" in Python — Complete Guide</h3>
+              <div class="card-meta">
+                <span class="read-time">5 min read</span>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-thumb" style="height:120px;font-size:2rem;">⚡</div>
+            <div class="card-body">
+              <div class="card-cat">ESP32 Guide</div>
+              <h3 class="card-title">ESP32 WiFi Not Connecting? Here's Every Fix</h3>
+              <div class="card-meta">
+                <span class="read-time">6 min read</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORIES -->
+  <section style="padding-top:0">
+    <div class="container">
+      <div class="section-label">// Browse Topics</div>
+      <h2 class="section-title">Categories</h2>
+      <div class="categories-grid fade-up">
+        <div class="cat-card">
+          <div class="cat-icon">📱</div>
+          <div class="cat-name">Android</div>
+          <div class="cat-count">42 guides</div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-icon">🐍</div>
+          <div class="cat-name">Python</div>
+          <div class="cat-count">31 guides</div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-icon">🌐</div>
+          <div class="cat-name">Web Dev</div>
+          <div class="cat-count">28 guides</div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-icon">⚡</div>
+          <div class="cat-name">ESP32 / IoT</div>
+          <div class="cat-count">19 guides</div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-icon">🛠️</div>
+          <div class="cat-name">Dev Tools</div>
+          <div class="cat-count">24 guides</div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-icon">🤖</div>
+          <div class="cat-name">AI & ML</div>
+          <div class="cat-count">17 guides</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AD SLOT (Mid Banner) -->
+  <div class="container">
+    <div class="ad-slot">📢 Advertisement — Google AdSense Rectangle (336×280)</div>
+  </div>
+
+  <!-- LATEST ARTICLES -->
+  <section style="padding-top:20px">
+    <div class="container">
+      <div class="section-label">// Latest</div>
+      <h2 class="section-title">Recent Tutorials</h2>
+      <div class="articles-grid fade-up">
+
+        <div class="card">
+          <div class="card-thumb" style="height:140px;font-size:2.2rem">🔧</div>
+          <div class="card-body">
+            <div class="card-cat">Git Fix</div>
+            <h3 class="card-title">How to Fix "fatal: not a git repository" Error</h3>
+            <p class="card-excerpt">Step-by-step walkthrough of the most common Git error beginners hit.</p>
+            <div class="card-meta"><span class="read-time">4 min read</span></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-thumb" style="height:140px;font-size:2.2rem">💻</div>
+          <div class="card-body">
+            <div class="card-cat">VS Code</div>
+            <h3 class="card-title">VS Code Extensions That Will 10× Your Productivity</h3>
+            <p class="card-excerpt">The essential list of extensions every developer should install in 2025.</p>
+            <div class="card-meta"><span class="read-time">6 min read</span></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-thumb" style="height:140px;font-size:2.2rem">📶</div>
+          <div class="card-body">
+            <div class="card-cat">Network Fix</div>
+            <h3 class="card-title">DNS_PROBE_FINISHED_NXDOMAIN — Full Fix Guide</h3>
+            <p class="card-excerpt">What this Chrome error means and 6 proven ways to resolve it for good.</p>
+            <div class="card-meta"><span class="read-time">5 min read</span></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-thumb" style="height:140px;font-size:2.2rem">☕</div>
+          <div class="card-body">
+            <div class="card-cat">Java Fix</div>
+            <h3 class="card-title">Fix "NullPointerException" in Java — With Examples</h3>
+            <p class="card-excerpt">Understand why NPEs happen and how to debug them systematically.</p>
+            <div class="card-meta"><span class="read-time">7 min read</span></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-thumb" style="height:140px;font-size:2.2rem">🪟</div>
+          <div class="card-body">
+            <div class="card-cat">Windows Fix</div>
+            <h3 class="card-title">Windows 11 Slow Startup? 8 Fixes That Actually Work</h3>
+            <p class="card-excerpt">From startup apps to BIOS settings — the complete speed-up guide.</p>
+            <div class="card-meta"><span class="read-time">9 min read</span></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-thumb" style="height:140px;font-size:2.2rem">🔑</div>
+          <div class="card-body">
+            <div class="card-cat">Security</div>
+            <h3 class="card-title">Best Free Password Managers in 2025 — Compared</h3>
+            <p class="card-excerpt">We tested Bitwarden, KeePass, and others so you don't have to.</p>
+            <div class="card-meta"><span class="read-time">5 min read</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- POPULAR FIXES SIDEBAR-STYLE LIST -->
+  <section style="padding-top:0">
+    <div class="container">
+      <div class="section-label">// Most Searched</div>
+      <h2 class="section-title">Popular Error Fixes</h2>
+      <div class="fixes-list fade-up">
+        <div class="fix-item"><span class="fix-num">01</span><span class="fix-title">How to fix "INSTALL_FAILED_UPDATE_INCOMPATIBLE" on Android</span><span class="fix-views">24.3K views</span></div>
+        <div class="fix-item"><span class="fix-num">02</span><span class="fix-title">Python pip not recognized as internal or external command</span><span class="fix-views">18.7K views</span></div>
+        <div class="fix-item"><span class="fix-num">03</span><span class="fix-title">ERR_CONNECTION_REFUSED — 7 ways to fix it</span><span class="fix-views">15.2K views</span></div>
+        <div class="fix-item"><span class="fix-num">04</span><span class="fix-title">Android ADB device unauthorized — fix in 3 steps</span><span class="fix-views">12.8K views</span></div>
+        <div class="fix-item"><span class="fix-num">05</span><span class="fix-title">React "Cannot read properties of undefined" — full fix</span><span class="fix-views">11.4K views</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section>
+    <div class="container">
+      <div class="newsletter fade-up">
+        <h2>Get Fixes In Your Inbox 📬</h2>
+        <p>Weekly digest of the most searched tech fixes and new tutorials.</p>
+        <div class="nl-form">
+          <input class="nl-input" type="email" placeholder="your@email.com" />
+          <button class="btn-primary">Subscribe</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /home -->
+
+<!-- ════════════════════════════════ ARTICLE PAGE ════════════════════════════════ -->
+<div id="article" class="page">
+
+  <!-- Structured Data for Article -->
+  <script type="application/ld+json" id="article-schema">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "How to Fix App Not Installed Error on Android",
+    "description": "Complete guide with 7 methods to fix the App Not Installed error on any Android device.",
+    "author": { "@type": "Person", "name": "TechFix Hub Team" },
+    "publisher": { "@type": "Organization", "name": "TechFix Hub" },
+    "datePublished": "2025-01-15",
+    "mainEntityOfPage": "https://techfixhub.com/fix/android-app-not-installed"
+  }
+  </script>
+
+  <div class="article-hero">
+    <div class="breadcrumb">
+      <a href="#" onclick="showPage('home')">Home</a> › <span>Android Fix</span> › App Not Installed
+    </div>
+    <h1 class="article-title">How to Fix "App Not Installed" Error on Android — 7 Working Methods</h1>
+    <div class="article-meta">
+      <span>📅 January 15, 2025</span>
+      <span>⏱ 8 min read</span>
+      <span>👁 24,300 views</span>
+      <span style="color:var(--accent)">✅ Verified Fix</span>
+    </div>
+  </div>
+
+  <!-- AD SLOT -->
+  <div style="max-width:800px;margin:0 auto;padding:0 5%">
+    <div class="ad-slot">📢 Advertisement — Google AdSense (336×280)</div>
+  </div>
+
+  <div class="article-body">
+
+    <div class="info-box">
+      <strong>Quick Summary:</strong> The "App Not Installed" error on Android usually means there's a storage issue, a signature conflict with an existing app, or an incompatible APK. Follow the methods below from easiest to most thorough.
+    </div>
+
+    <h2>Why Does This Error Happen?</h2>
+    <p>The "App Not Installed" error appears when Android cannot complete an APK installation. This can happen for several reasons:</p>
+    <ul>
+      <li>Insufficient storage space on your device</li>
+      <li>A conflicting version of the app is already installed</li>
+      <li>The APK file is corrupted or incomplete</li>
+      <li>"Install from Unknown Sources" is disabled</li>
+      <li>The APK is not compatible with your Android version</li>
+      <li>SD card being used as install location</li>
+    </ul>
+
+    <h2>Method 1: Free Up Storage Space</h2>
+    <p>Android needs at least 10–20% free storage to install apps properly. If your device is almost full, installations will fail.</p>
+    <ol class="step-list">
+      <li>Go to <strong>Settings → Storage</strong> and check available space.</li>
+      <li>Delete unused apps, photos, or videos until you have at least 1 GB free.</li>
+      <li>Clear the cache of large apps like Instagram or WhatsApp under <strong>Settings → Apps → [App Name] → Clear Cache</strong>.</li>
+      <li>Try the installation again.</li>
+    </ol>
+
+    <h2>Method 2: Enable Unknown Sources</h2>
+    <p>If you're installing an APK outside the Play Store, you need to allow it explicitly.</p>
+    <ol class="step-list">
+      <li>Open <strong>Settings → Security</strong> (or <strong>Privacy</strong> on newer Android).</li>
+      <li>Enable <strong>"Install Unknown Apps"</strong> for your file manager or browser.</li>
+      <li>Try installing the APK again.</li>
+    </ol>
+
+    <div class="warning-box">
+      ⚠️ <strong>Warning:</strong> Only install APKs from trusted sources. Enabling unknown sources increases security risk if misused.
+    </div>
+
+    <h2>Method 3: Uninstall the Existing Version First</h2>
+    <p>If you already have a version of the app installed and the signatures don't match (common with sideloaded apps), you must remove the old version first.</p>
+
+    <div class="code-block">
+      <span class="code-lang">ADB</span>
+# Via ADB (USB debugging required)
+adb uninstall com.example.appname
+
+# Then install the new APK
+adb install yourapp.apk
+    </div>
+
+    <p>Or go to <strong>Settings → Apps</strong>, find the app, tap <strong>Uninstall</strong>, then reinstall.</p>
+
+    <h2>Method 4: Check Android Version Compatibility</h2>
+    <p>Every APK has a minimum Android version requirement. If your device runs an older version, the APK won't install.</p>
+    <ol class="step-list">
+      <li>Check the APK's required Android version (usually listed on the download page).</li>
+      <li>Go to <strong>Settings → About Phone → Android Version</strong> to check yours.</li>
+      <li>If incompatible, look for an older APK version that supports your Android.</li>
+    </ol>
+
+    <!-- AD SLOT Mid-Article -->
+    <div class="ad-slot">📢 Advertisement — Google AdSense In-Article (468×60)</div>
+
+    <h2>Method 5: Don't Install to SD Card</h2>
+    <p>Some APKs fail when the default install location is set to SD card. Change it to internal storage:</p>
+    <ol class="step-list">
+      <li>Go to <strong>Settings → Apps</strong>.</li>
+      <li>Tap the three-dot menu → <strong>Default install location</strong>.</li>
+      <li>Select <strong>Internal Storage</strong>.</li>
+      <li>Retry the installation.</li>
+    </ol>
+
+    <h2>Method 6: Re-Download the APK</h2>
+    <p>A partially downloaded or corrupted APK file will always fail to install. Delete the file, clear your browser cache, and download it fresh from the original source.</p>
+
+    <h2>Method 7: Factory Reset (Last Resort)</h2>
+    <p>If nothing works and the issue affects multiple apps, a system-level problem may exist. Back up your data and perform a factory reset via <strong>Settings → System → Reset → Factory Reset</strong>.</p>
+
+    <h2>Still Not Fixed?</h2>
+    <p>Drop your exact error message in the comments below and include your Android version and device model — we'll help you troubleshoot it directly.</p>
+
+    <div class="info-box">
+      <strong>Related Fixes:</strong> <a href="#" style="color:var(--accent2)">Fix INSTALL_FAILED_UPDATE_INCOMPATIBLE</a> · <a href="#" style="color:var(--accent2)">Enable ADB on Android</a> · <a href="#" style="color:var(--accent2)">Best APK sites that are safe</a>
+    </div>
+
+  </div>
+
+  <!-- AD SLOT Bottom -->
+  <div style="max-width:800px;margin:0 auto;padding:0 5% 40px">
+    <div class="ad-slot">📢 Advertisement — Google AdSense (728×90)</div>
+  </div>
+
+</div><!-- /article -->
+
+<!-- ════════════════════════════════ TUTORIALS LIST PAGE ════════════════════════════════ -->
+<div id="tutorials" class="page">
+  <section>
+    <div class="container">
+      <div class="breadcrumb" style="margin-bottom:20px"><a href="#" onclick="showPage('home')">Home</a> › <span>All Tutorials</span></div>
+      <div class="section-label">// All Content</div>
+      <h1 class="section-title">Browse All Tutorials</h1>
+      <div class="articles-grid fade-up">
+        <div class="card" onclick="showArticle('android-install-error')">
+          <div class="card-thumb" style="height:140px;font-size:2.2rem">📱</div>
+          <div class="card-body">
+            <div class="card-cat">Android Fix</div>
+            <h3 class="card-title">How to Fix "App Not Installed" Error on Android</h3>
+            <div class="card-meta"><span class="read-time">8 min read</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-thumb" style="height:140px;font-size:2.2rem">🐍</div>
+          <div class="card-body">
+            <div class="card-cat">Python Fix</div>
+            <h3 class="card-title">Fix ModuleNotFoundError in Python — Every Method</h3>
+            <div class="card-meta"><span class="read-time">5 min read</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-thumb" style="height:140px;font-size:2.2rem">⚡</div>
+          <div class="card-body">
+            <div class="card-cat">ESP32</div>
+            <h3 class="card-title">ESP32 WiFi Not Connecting — Complete Fix Guide</h3>
+            <div class="card-meta"><span class="read-time">6 min read</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-thumb" style="height:140px;font-size:2.2rem">🔧</div>
+          <div class="card-body">
+            <div class="card-cat">Git</div>
+            <h3 class="card-title">Fix "fatal: not a git repository" Error</h3>
+            <div class="card-meta"><span class="read-time">4 min read</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-thumb" style="height:140px;font-size:2.2rem">💻</div>
+          <div class="card-body">
+            <div class="card-cat">VS Code</div>
+            <h3 class="card-title">Top VS Code Extensions for Developers in 2025</h3>
+            <div class="card-meta"><span class="read-time">6 min read</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-thumb" style="height:140px;font-size:2.2rem">🌐</div>
+          <div class="card-body">
+            <div class="card-cat">Network Fix</div>
+            <h3 class="card-title">Fix DNS_PROBE_FINISHED_NXDOMAIN in Chrome</h3>
+            <div class="card-meta"><span class="read-time">5 min read</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════════════════════ ABOUT PAGE ════════════════════════════════ -->
+<div id="about" class="page">
+  <div class="static-page">
+    <div class="breadcrumb"><a href="#" onclick="showPage('home')">Home</a> › <span>About</span></div>
+    <h1>About TechFix Hub</h1>
+    <p>TechFix Hub is a free, independent tech tutorial website dedicated to helping developers, students, and everyday users fix errors and learn new tools — without the fluff.</p>
+    <p>We started this site because we were tired of searching for "how to fix [error]" and ending up on pages with walls of ads, no real answers, and outdated information from 2015. Every guide here is written by people who actually encountered the problem and solved it.</p>
+
+    <h2>What We Cover</h2>
+    <ul>
+      <li>Android errors and APK installation issues</li>
+      <li>Python, Java, JavaScript, and other programming errors</li>
+      <li>ESP32, Arduino, and embedded systems guides</li>
+      <li>Dev tool tutorials — Git, VS Code, Docker, and more</li>
+      <li>App comparisons and free tool recommendations</li>
+      <li>Network troubleshooting and browser fixes</li>
+    </ul>
+
+    <h2>Our Content Policy</h2>
+    <p>Every article on TechFix Hub is tested on a real device or environment before publishing. We update guides when software changes, and we cite our sources where applicable. We don't publish AI-only content without human review.</p>
+
+    <h2>Advertising</h2>
+    <p>TechFix Hub is supported by display advertising through Google AdSense. Ads help us keep the site free. We do not allow sponsored content that hasn't been clearly disclosed, and we never accept payment to recommend specific products.</p>
+
+    <h2>Contact Us</h2>
+    <p>Have a question, found an error in a guide, or want to suggest a topic? <a href="#" onclick="showPage('contact')" style="color:var(--accent)">Reach out on our contact page.</a></p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════ CONTACT PAGE ════════════════════════════════ -->
+<div id="contact" class="page">
+  <div class="static-page">
+    <div class="breadcrumb"><a href="#" onclick="showPage('home')">Home</a> › <span>Contact</span></div>
+    <h1>Contact Us</h1>
+    <p>Have a tech error we haven't covered? Found a mistake in one of our guides? Just want to say hi? We read every message.</p>
+    <p><strong>Email:</strong> hello@techfixhub.com<br>
+    <strong>Response time:</strong> Usually within 24–48 hours on weekdays.</p>
+
+    <div class="contact-form">
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" placeholder="Obito" />
+      </div>
+      <div class="form-group">
+        <label>Your Email</label>
+        <input type="email" placeholder="you@email.com" />
+      </div>
+      <div class="form-group">
+        <label>Subject</label>
+        <select>
+          <option>Report a broken guide</option>
+          <option>Suggest a new tutorial</option>
+          <option>General question</option>
+          <option>Business / Partnership</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea placeholder="Describe your issue or question…"></textarea>
+      </div>
+      <button class="btn-primary" style="width:100%;padding:14px">Send Message</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════ PRIVACY POLICY PAGE ════════════════════════════════ -->
+<div id="privacy" class="page">
+  <div class="static-page">
+    <div class="breadcrumb"><a href="#" onclick="showPage('home')">Home</a> › <span>Privacy Policy</span></div>
+    <h1>Privacy Policy</h1>
+    <p><strong>Last updated:</strong> January 1, 2025</p>
+    <p>TechFix Hub ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and share information when you visit our website at techfixhub.com.</p>
+
+    <h2>Information We Collect</h2>
+    <p>We collect the following types of information:</p>
+    <ul>
+      <li><strong>Usage data:</strong> Pages visited, time spent, browser type, and device type — collected automatically via Google Analytics.</li>
+      <li><strong>Contact form data:</strong> Name and email address if you submit our contact form.</li>
+      <li><strong>Newsletter data:</strong> Email address if you subscribe to our newsletter.</li>
+    </ul>
+
+    <h2>Google AdSense & Cookies</h2>
+    <p>We use Google AdSense to display advertisements. Google may use cookies to serve ads based on your prior visits to this and other websites. You can opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" style="color:var(--accent)" target="_blank" rel="noopener">Google Ads Settings</a>.</p>
+    <p>Third-party vendors, including Google, use cookies to serve ads based on a user's prior visits. These cookies allow Google and its partners to serve ads based on your visit to our site and/or other sites on the Internet.</p>
+
+    <h2>How We Use Your Information</h2>
+    <ul>
+      <li>To improve our website content and user experience</li>
+      <li>To respond to contact form submissions</li>
+      <li>To send newsletters (only if you subscribed)</li>
+      <li>To display relevant advertisements via Google AdSense</li>
+    </ul>
+
+    <h2>Data Sharing</h2>
+    <p>We do not sell your personal data. We share data only with:</p>
+    <ul>
+      <li>Google Analytics (anonymized usage data)</li>
+      <li>Google AdSense (ad serving and measurement)</li>
+      <li>Email service providers (for newsletter delivery)</li>
+    </ul>
+
+    <h2>Your Rights</h2>
+    <p>You have the right to request access to, correction of, or deletion of your personal data. To exercise these rights, contact us at privacy@techfixhub.com.</p>
+
+    <h2>Children's Privacy</h2>
+    <p>Our website is not directed to children under 13. We do not knowingly collect personal information from children under 13.</p>
+
+    <h2>Changes to This Policy</h2>
+    <p>We may update this policy from time to time. Changes will be posted on this page with an updated date.</p>
+
+    <h2>Contact</h2>
+    <p>For privacy-related questions, email us at privacy@techfixhub.com.</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════ FOOTER ════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">Tech<span>Fix</span>Hub</div>
+      <p>Free, no-fluff tech tutorials and error fixes for developers and everyday users. Updated regularly with new guides.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Topics</h4>
+      <ul>
+        <li><a href="#">Android Fixes</a></li>
+        <li><a href="#">Python Errors</a></li>
+        <li><a href="#">Web Dev</a></li>
+        <li><a href="#">ESP32 / IoT</a></li>
+        <li><a href="#">Git & GitHub</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Tools</h4>
+      <ul>
+        <li><a href="#">VS Code Guides</a></li>
+        <li><a href="#">App Comparisons</a></li>
+        <li><a href="#">Free Alternatives</a></li>
+        <li><a href="#">Dev Resources</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Site</h4>
+      <ul>
+        <li><a href="#" onclick="showPage('about')">About</a></li>
+        <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+        <li><a href="#" onclick="showPage('privacy')">Privacy Policy</a></li>
+        <li><a href="#">Sitemap</a></li>
+        <li><a href="#">Disclaimer</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 TechFix Hub. All rights reserved.</span>
+    <span>Built for Google AdSense · Privacy-first</span>
+  </div>
+</footer>
+
+<!-- ── SITEMAP XML LINK (for reference) ── -->
+<!-- /sitemap.xml should be submitted to Google Search Console -->
+
+<script>
+  // ── Page Router ──
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const page = document.getElementById(id);
+    if (page) {
+      page.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  function showArticle(slug) {
+    showPage('article');
+  }
+
+  // ── Scroll Fade-In ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // ── Stagger cards on load ──
+  document.querySelectorAll('.card').forEach((card, i) => {
+    card.style.animationDelay = `${i * 0.06}s`;
+    card.classList.add('fade-up');
+    observer.observe(card);
+  });
+</script>
+
+</body>
+</html>
